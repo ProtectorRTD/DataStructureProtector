@@ -1,4 +1,4 @@
-package LinkedList;
+package linkedlist;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -20,9 +20,7 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        if (root == null)
-            return true;
-        return false;
+        return root == null;
     }
 
     @Override
@@ -36,7 +34,7 @@ public class MyLinkedList<E> implements List<E> {
         Node<E> checker = root;
         int count = 0;
         while (checker != null) {
-            array[count] = (Object) checker.getData();
+            array[count] = checker.getData();
             count++;
             checker = checker.getNextNode();
         }
@@ -46,10 +44,10 @@ public class MyLinkedList<E> implements List<E> {
     @Override
     public boolean add(E e) {
         if (root == null) {
-            root = new Node<E>(e);
+            root = new Node<>(e);
             this.size++;
         } else {
-            Node<E> object = new Node<E>(e);
+            Node<E> object = new Node<>(e);
             if (last != null) {
                 last.setNextNode(object);
                 last = last.getNextNode();
@@ -102,8 +100,8 @@ public class MyLinkedList<E> implements List<E> {
     public boolean addAll(Collection<? extends E> c) {
         @SuppressWarnings("unchecked")
         E[] arrray = (E[]) c.toArray();
-        for (int i = 0; i < arrray.length; i++) {
-            add(arrray[i]);
+        for (E e : arrray) {
+            add(e);
         }
         return true;
     }
@@ -116,8 +114,8 @@ public class MyLinkedList<E> implements List<E> {
         @SuppressWarnings("unchecked")
         E[] arrray = (E[]) c.toArray();
         int count = index;
-        for (int i = 0; i < arrray.length; i++) {
-            add(count, arrray[i]);
+        for (E e : arrray) {
+            add(count, e);
             count++;
         }
         return true;
@@ -129,8 +127,8 @@ public class MyLinkedList<E> implements List<E> {
         if (root == null)
             return false;
         E[] array = (E[]) c.toArray();
-        for (int i = 0; i < array.length; i++) {
-            remove(array[i]);
+        for (E e : array) {
+            remove(e);
         }
         return true;
     }
@@ -146,8 +144,8 @@ public class MyLinkedList<E> implements List<E> {
         boolean check = false;
         for (int i = 0; i < size; i++) {
             check = false;
-            for (int j = 0; j < array.length; j++) {
-                if (current.getData().equals(array[j])) {
+            for (E e : array) {
+                if (current.getData().equals(e)) {
                     check = true;
                     break;
                 }
@@ -186,7 +184,7 @@ public class MyLinkedList<E> implements List<E> {
         if (index > size) {
             throw new IndexOutOfBoundsException();
         }
-        Node<E> object = new Node<E>(element);
+        Node<E> object = new Node<>(element);
         Node<E> prev = root;
         if (index == 0) {
             object.setNextNode(root.getNextNode());
@@ -228,7 +226,7 @@ public class MyLinkedList<E> implements List<E> {
             current = current.getNextNode();
             nowPos++;
         }
-        Node<E> object = new Node<E>(element);
+        Node<E> object = new Node<>(element);
         object.setNextNode(next);
         current.setNextNode(object);
         this.size++;
@@ -239,7 +237,7 @@ public class MyLinkedList<E> implements List<E> {
         if (index > this.size()) {
             throw new IndexOutOfBoundsException();
         }
-        Node<E> object = new Node<E>(get(index));
+        Node<E> object = new Node<>(get(index));
         remove(object);
         return object.getData();
     }
@@ -282,7 +280,7 @@ public class MyLinkedList<E> implements List<E> {
         if (fromIndex > size || toIndex > size || fromIndex > toIndex || fromIndex < 0) {
             throw new IndexOutOfBoundsException();
         }
-        MyLinkedList<E> result = new MyLinkedList<E>();
+        MyLinkedList<E> result = new MyLinkedList<>();
         int pos = 0;
         Node<E> current = root;
         while (pos < toIndex) {
