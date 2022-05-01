@@ -8,7 +8,7 @@ import java.util.ListIterator;
 
 public class MyLinkedList<E> implements List<E> {
     private Node<E> root;
-    private Node<E> last; // dodelat v teoriu
+    private Node<E> last;
     private int size = 0;
 
     @Override
