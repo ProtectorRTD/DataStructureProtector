@@ -13,6 +13,5 @@ The workspace contains two folders by default, where:
       - `linkedlist:` The folder where my Linked List implementation is located. Also in the folder there will be tests that can be viewed and run
   
 ## Build up
-- javac Main.java
-
+- javac Main.java 
 - java Main
