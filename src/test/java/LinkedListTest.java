@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import linkedlist.MyLinkedList;
+import linked_list.MyLinkedList;
 
 public class LinkedListTest {
     /*

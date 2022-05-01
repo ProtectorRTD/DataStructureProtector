@@ -1,4 +1,4 @@
-package linkedlist;
+package linked_list;
 public class Node <E>
 {
     private E element;
