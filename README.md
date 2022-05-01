@@ -20,3 +20,7 @@ The workspace contains two folders by default, where:
 - javac Main.java
 - jar cfev out.jar Main Main.class linked_list/*
 - java -jar out.jar
+
+
+
+

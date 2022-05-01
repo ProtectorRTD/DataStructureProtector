@@ -13,8 +13,6 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public int size() {
-        if (isEmpty())
-            return 0;
         return this.size;
     }
 
