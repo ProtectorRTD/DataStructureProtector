@@ -30,6 +30,7 @@ public class MyLinkedList<E> implements List<E> {
         size++;
         return true;
     }
+
     @Override
     public void add(int index, E element) {
         if (index > size) {
@@ -83,7 +84,6 @@ public class MyLinkedList<E> implements List<E> {
         return array;
     }
 
-
     @Override
     public boolean remove(Object o) {
         if (o == null)
@@ -110,21 +110,18 @@ public class MyLinkedList<E> implements List<E> {
     public boolean containsAll(Collection<?> c) {
         if (c.isEmpty() || c.size() > size)
             return false;
-        Object[] array = c.toArray();
-        int count = 0;
-        for (int i = 0; i < array.length; i++) {
-            if (contains(array[i])) {
-                count++;
+        for (Object element : c) {
+            if (!contains(element)) {
+                return false;
             }
         }
-        return (size == count);
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        @SuppressWarnings("unchecked")
-        E[] arrray = (E[]) c.toArray();
-        for (E e : arrray) {
+        if (c.isEmpty()) return false;
+        for (E e : c) {
             add(e);
         }
         return true;
@@ -135,23 +132,19 @@ public class MyLinkedList<E> implements List<E> {
         if (index > size) {
             throw new IndexOutOfBoundsException();
         }
-        @SuppressWarnings("unchecked")
-        E[] arrray = (E[]) c.toArray();
-        int count = index;
-        for (E e : arrray) {
-            add(count, e);
-            count++;
+        MyLinkedList<E> linkedList = new MyLinkedList<>();
+        for (E e : c) {
+            linkedList.add(e);
         }
+        add(index, linkedList.get(0));
         return true;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public boolean removeAll(Collection<?> c) {
         if (root == null)
             return false;
-        E[] array = (E[]) c.toArray();
-        for (E e : array) {
+        for (Object e : c) {
             remove(e);
         }
         return true;
@@ -162,19 +155,17 @@ public class MyLinkedList<E> implements List<E> {
         if (c == null) {
             throw new NullPointerException();
         }
-        @SuppressWarnings("unchecked")
-        E[] array = (E[]) c.toArray();
         Node<E> current = root;
-        boolean check = false;
+        boolean checker;
         for (int i = 0; i < size; i++) {
-            check = false;
-            for (E e : array) {
+            checker = false;
+            for (Object e : c) {
                 if (current.getData().equals(e)) {
-                    check = true;
+                    checker = true;
                     break;
                 }
             }
-            if (!check) {
+            if (!checker) {
                 remove(current.getData());
             }
             current = current.getNextNode();
@@ -196,13 +187,14 @@ public class MyLinkedList<E> implements List<E> {
         }
         int pos = 0;
         Node<E> tmp = root;
-        while (pos < size - 1) {
+        while (pos != index) {
             tmp = tmp.getNextNode();
             pos++;
         }
         return tmp.getData();
     }
 
+    //next refactor
     @Override
     public E set(int index, E element) {
         if (index > size) {
@@ -210,10 +202,16 @@ public class MyLinkedList<E> implements List<E> {
         }
         Node<E> object = new Node<>(element);
         Node<E> current = root;
-        for(int i = 0; i < size; i++){
-            if(index == i){
-                    object.setNextNode(current.getNextNode());
-
+        if (index == 0) {
+            object.setNextNode(root.getNextNode());
+            root.setNextNode(object);
+            root = root.getNextNode();
+        }
+        for (int i = 0; i < size; i++) {
+            if (index == i + 1) {
+                object.setNextNode(current.getNextNode().getNextNode());
+                current.setNextNode(object);
+                break;
             }
             current = current.getNextNode();
         }
@@ -244,7 +242,7 @@ public class MyLinkedList<E> implements List<E> {
             tmp = tmp.getNextNode();
             count++;
         }
-        if(!checker){
+        if (!checker) {
             count = -1;
         }
         return count;
@@ -265,6 +263,7 @@ public class MyLinkedList<E> implements List<E> {
         return lastIndex;
     }
 
+    //refactor next
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         if (fromIndex > size || toIndex > size || fromIndex > toIndex || fromIndex < 0) {

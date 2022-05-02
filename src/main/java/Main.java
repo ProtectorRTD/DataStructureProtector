@@ -21,7 +21,10 @@ public class Main
         mylist.add(word_v2);
         mylist.add(word_v3);
 
-        mylist.remove(word_v3);
+        mylist.set(2, "Bda bda");
+        for(int i = 0; i < mylist.size(); i++){
+            System.out.println("Data - "+ mylist.get(i));
+        }
         System.out.println("");
     }
 }
