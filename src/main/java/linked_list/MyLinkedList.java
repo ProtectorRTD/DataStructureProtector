@@ -6,10 +6,55 @@ import java.util.List;
 import java.util.ListIterator;
 
 
+//Need to add new function and sorted by alphabet
 public class MyLinkedList<E> implements List<E> {
     private Node<E> root;
     private Node<E> last;
     private int size = 0;
+
+    @Override
+    public boolean add(E e) {
+        if (root == null) {
+            root = new Node<>(e);
+            root.setNextNode(last);
+        } else {
+            Node<E> object = new Node<>(e);
+            if (last != null) {
+                last.setNextNode(object);
+                last = last.getNextNode();
+            } else {
+                root.setNextNode(object);
+                last = object;
+            }
+        }
+        size++;
+        return true;
+    }
+    @Override
+    public void add(int index, E element) {
+        if (index > size) {
+            return;
+        }
+        if (size == 0) {
+            add(element);
+            return;
+        }
+        Node<E> next = root.getNextNode();
+        Node<E> current = root;
+        int nowPos = 0;
+        while (nowPos < index) {
+            if (nowPos + 1 == index) {
+                break;
+            }
+            next = next.getNextNode();
+            current = current.getNextNode();
+            nowPos++;
+        }
+        Node<E> object = new Node<>(element);
+        object.setNextNode(next);
+        current.setNextNode(object);
+        this.size++;
+    }
 
     @Override
     public int size() {
@@ -28,54 +73,35 @@ public class MyLinkedList<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        Object[] array = new Object[this.size()];
+        Object[] array = new Object[size];
         Node<E> checker = root;
         int count = 0;
         while (checker != null) {
-            array[count] = checker.getData();
-            count++;
+            array[count++] = checker.getData();
             checker = checker.getNextNode();
         }
         return array;
     }
 
-    @Override
-    public boolean add(E e) {
-        if (root == null) {
-            root = new Node<>(e);
-            this.size++;
-        } else {
-            Node<E> object = new Node<>(e);
-            if (last != null) {
-                last.setNextNode(object);
-                last = last.getNextNode();
-            } else {
-                root.setNextNode(object);
-                last = object;
-            }
-            this.size++;
-        }
-        return true;
-    }
 
     @Override
     public boolean remove(Object o) {
         if (o == null)
             return false;
-        if (o.equals(root.getData())) {
+        if (root.getData().equals(o)) {
             root = root.getNextNode();
-            return true;
+        } else {
+            Node<E> prev = root;
+            Node<E> current = root.getNextNode();
+            while (current != null) {
+                if (o.equals(current.getData())) {
+                    prev.setNextNode(current.getNextNode());
+                    break;
+                }
+                prev = current;
+                current = current.getNextNode();
+            }
         }
-        Node<E> tmp = root;
-        Node<E> next = root.getNextNode();
-        while (!o.equals(next.getData())) {
-            tmp = tmp.getNextNode();
-            next = next.getNextNode();
-        }
-        if (next != null) {
-            next = next.getNextNode();
-        }
-        tmp.setNextNode(next);
         size--;
         return true;
     }
@@ -183,52 +209,17 @@ public class MyLinkedList<E> implements List<E> {
             throw new IndexOutOfBoundsException();
         }
         Node<E> object = new Node<>(element);
-        Node<E> prev = root;
-        if (index == 0) {
-            object.setNextNode(root.getNextNode());
-            root = object;
-            return prev.getData();
-        }
-        Node<E> tmp = root.getNextNode();
-        for (int i = 1; i < size; i++) {
-            if (index == i) {
-                prev.setNextNode(object);
-                object.setNextNode(tmp.getNextNode());
-                break;
+        Node<E> current = root;
+        for(int i = 0; i < size; i++){
+            if(index == i){
+                    object.setNextNode(current.getNextNode());
+
             }
-            if (tmp.getNextNode() != null) {
-                tmp = tmp.getNextNode();
-            }
-            prev = prev.getNextNode();
+            current = current.getNextNode();
         }
-        return tmp.getData();
+        return current.getData();
     }
 
-    @Override
-    public void add(int index, E element) {
-        if (index > this.size()) {
-            return;
-        }
-        if (index == 0) {
-            add(element);
-            return;
-        }
-        Node<E> next = root.getNextNode();
-        Node<E> current = root;
-        int nowPos = 0;
-        while (nowPos < index) {
-            if (nowPos + 1 == index) {
-                break;
-            }
-            next = next.getNextNode();
-            current = current.getNextNode();
-            nowPos++;
-        }
-        Node<E> object = new Node<>(element);
-        object.setNextNode(next);
-        current.setNextNode(object);
-        this.size++;
-    }
 
     @Override
     public E remove(int index) {
@@ -236,41 +227,42 @@ public class MyLinkedList<E> implements List<E> {
             throw new IndexOutOfBoundsException();
         }
         Node<E> object = new Node<>(get(index));
-        remove(object);
+        remove(object.getData());
         return object.getData();
     }
 
     @Override
     public int indexOf(Object o) {
-        int pos = -1;
         int count = 0;
+        boolean checker = false;
         Node<E> tmp = root;
         while (tmp != null) {
             if (o.equals(tmp.getData())) {
-                pos = count;
+                checker = true;
                 break;
             }
             tmp = tmp.getNextNode();
             count++;
         }
-        return pos;
+        if(!checker){
+            count = -1;
+        }
+        return count;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        int pos = -1;
         int count = 0;
+        int lastIndex = -1;
         Node<E> tmp = root;
-        while (count < size) {
-            if (tmp == null)
-                break;
-            if (tmp.getData().equals(o)) {
-                pos = count;
+        while (tmp != null) {
+            if (o.equals(tmp.getData())) {
+                lastIndex = count;
             }
-            count++;
             tmp = tmp.getNextNode();
+            count++;
         }
-        return pos;
+        return lastIndex;
     }
 
     @Override
@@ -302,9 +294,6 @@ public class MyLinkedList<E> implements List<E> {
         for (Node<E> x = root; x != null; x = x.getNextNode()) {
             result[i++] = x.getData();
         }
-        if (a.length > size)
-            a[size] = null;
-
         return a;
     }
 
