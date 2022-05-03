@@ -1,13 +1,14 @@
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import linked_list.MyLinkedList;
+import org.junit.Assert;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.testng.annotations.Test;
-
-import linked_list.MyLinkedList;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class LinkedListTest {
     /*
@@ -34,7 +35,7 @@ public class LinkedListTest {
         mylist.add(word_v3);
         mylist.add(2,word_finall);
         //записывать в массив и тупо сравнивать потом
-        
+
         assertArrayEquals(linkedList.toArray(), mylist.toArray());
     }
     /*
@@ -43,7 +44,7 @@ public class LinkedListTest {
     */
     @Test
     public void second()
-    {        
+    {
         String word_v1 = "Zero";
         //Java classic Linked List
         LinkedList<String> linkedList = new LinkedList<>();
@@ -60,7 +61,7 @@ public class LinkedListTest {
     */
     @Test
     public void three()
-    {        
+    {
         String word_v1 = "Zero";
         //Java classic Linked List
         LinkedList<String> linkedList = new LinkedList<>();
@@ -73,31 +74,120 @@ public class LinkedListTest {
         assertArrayEquals(linkedList.toArray(), mylist.toArray());
     }
     /*
-    Check int indexOf(Object o)
+    Check void add(int index, Object o)
+    Exception()
+    */
+    @Test (expectedExceptions = IndexOutOfBoundsException.class)
+    public void firstException() {
+        MyLinkedList<String> list = new MyLinkedList<>();
+        list.add(5, "Da");
+    }
+    @Test
+    public void addObjects(){
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        for(int i = 0; i < 300000; i++){
+            actual.add(Integer.toString(i));
+            expected.add(Integer.toString(i));
+        }
+        Assert.assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+    /*
+    addAll(int index = 0)
     */
     @Test
-    public void four()
-    {
-        String word_v1 = "Zero";
-        //Java classic Linked List
-        LinkedList<String> linkedList = new LinkedList<>();
-        linkedList.add(word_v1);
-        linkedList.add(word_v1);
-        //My implement
-        MyLinkedList<String> mylist = new MyLinkedList<>();
-        mylist.add(word_v1);
-        mylist.add(1, word_v1);
-
-        int expected = linkedList.indexOf(word_v1);
-        int actual = mylist.indexOf(word_v1);
-        assertEquals(expected, actual);
+    public void addAllTestIndexZero() {
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        Collection<String> collection = new ArrayList<>();
+        for (int i = 0; i < 300000; i++) {
+            actual.add(Integer.toString(i));
+            expected.add(Integer.toString(i));
+            collection.add(Integer.toString(i));
+        }
+        actual.addAll(0, collection);
+        expected.addAll(0, collection);
+        Assert.assertArrayEquals(expected.toArray(),actual.toArray());
     }
+    /*
+    addAll(int index = 5) - middle
+    */
+    @Test
+    public void addAllTestIndexInMiddle() {
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        Collection<String> collection = new ArrayList<>();
+        for (int i = 0; i < 300000; i++) {
+            actual.add(Integer.toString(i));
+            expected.add(Integer.toString(i));
+            collection.add(Integer.toString(i));
+        }
+        actual.addAll(5, collection);
+        expected.addAll(5, collection);
+        Assert.assertArrayEquals(expected.toArray(),actual.toArray());
+    }
+    /*
+    addAll(int index = 5) - end
+    */
+    @Test
+    public void addAllTestIndexInEnd() {
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        Collection<String> collection = new ArrayList<>();
+        for (int i = 0; i < 300000; i++) {
+            actual.add(Integer.toString(i));
+            expected.add(Integer.toString(i));
+            collection.add(Integer.toString(i));
+        }
+        actual.addAll(300000, collection);
+        expected.addAll(300000, collection);
+        Assert.assertArrayEquals(expected.toArray(),actual.toArray());
+    }
+    /*
+    addAll no index
+    */
+    @Test
+    public void addAllTestWithoutIndex() {
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        Collection<String> collection = new ArrayList<>();
+        for (int i = 0; i < 300000; i++) {
+            actual.add(Integer.toString(i));
+            expected.add(Integer.toString(i));
+            collection.add(Integer.toString(i));
+        }
+        actual.addAll( collection);
+        expected.addAll( collection);
+        Assert.assertArrayEquals(expected.toArray(),actual.toArray());
+    }
+    /*
+    сlear
+    */
+    @Test
+    public void clearTest()
+    {
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        Collection<String> collection = new ArrayList<>();
+        for (int i = 0; i < 30000; i++) {
+            actual.add(Integer.toString(i));
+            expected.add(Integer.toString(i));
+            collection.add(Integer.toString(i));
+        }
+        actual.addAll( collection);
+        expected.addAll( collection);
+        actual.clear();
+        expected.clear();
+        Assert.assertArrayEquals(expected.toArray(),actual.toArray());
+    }
+
+
     /*
     Check int indexOf(Object o)
     If dont have object in the list
     */
     @Test
-    public void five()
+    public void TestIndexOfDontHaveObject()
     {
         String word_v1 = "Zero";
         //Java classic Linked List
@@ -117,7 +207,7 @@ public class LinkedListTest {
     Check int lastindexOf
     */
     @Test
-    public void six()
+    public void LastIndexOf()
     {
         String word_v1 = "Zero";
         //Java classic Linked List
@@ -137,7 +227,7 @@ public class LinkedListTest {
     Check get(int index) -  first index
     */
     @Test
-    public void seven()
+    public void getFirstIndex()
     {
         String word_v1 = "Zero";
         //Java classic Linked List
@@ -157,7 +247,7 @@ public class LinkedListTest {
     Check get(int index) -  last index
     */
     @Test
-    public void eight()
+    public void getLastindex()
     {
         String word_v1 = "Zero";
         //Java classic Linked List
@@ -185,11 +275,12 @@ public class LinkedListTest {
 //        mylist.add(1, word_v1);
 //        Object actual = mylist.get(5);
 //    }
+
     /*
     Check subList function
     */
     @Test
-    public void ten()
+    public void subList()
     {
         String word_v1 = "Zero";
         //Java classic Linked List
@@ -212,30 +303,30 @@ public class LinkedListTest {
     /*
     Check subList - Invalid index
     */
-//    @Test(expected = IndexOutOfBoundsException.class)
-//    public void eleven()
-//    {
-//        String word_v1 = "Zero";
-//        //My implement
-//        MyLinkedList<String> mylist = new MyLinkedList<>();
-//        mylist.add(word_v1);
-//        mylist.add(word_v1);
-//        mylist.add(word_v1);
-//        mylist.add(word_v1);
-//        List<String> actual =  mylist.subList(0, 5);
-//    }
+    @Test(expectedExceptions = IndexOutOfBoundsException.class)
+    public void subListException()
+    {
+        String word_v1 = "Zero";
+        //My implement
+        MyLinkedList<String> mylist = new MyLinkedList<>();
+        mylist.add(word_v1);
+        mylist.add(word_v1);
+        mylist.add(word_v1);
+        mylist.add(word_v1);
+        List<String> actual =  mylist.subList(0, 5);
+    }
     /*
     Check containsAll(Collection<?> c)
     */
     @Test
-    public void twelf()
+    public void containsAll()
     {
-        List <String> list1 = new ArrayList();  
+        List <String> list1 = new ArrayList();
         list1.add("One");
         list1.add("Second");
         list1.add("Three");
         //My implement
-        
+
         MyLinkedList<String> actual = new MyLinkedList<>();
         actual.add(list1.get(0));
         actual.add(list1.get(1));
@@ -251,9 +342,9 @@ public class LinkedListTest {
     addAll(Collection<? extends E> c)
     */
     @Test
-    public void thirteen()
+    public void addAll()
     {
-        List <String> list1 = new ArrayList();  
+        List <String> list1 = new ArrayList();
         list1.add("One");
         list1.add("Second");
         list1.add("Three");
@@ -268,9 +359,9 @@ public class LinkedListTest {
     addAll(int index, Collection<? extends E> c)
     */
     @Test
-    public void fourteen()
+    public void addAllIndex()
     {
-        List <String> list1 = new ArrayList();  
+        List <String> list1 = new ArrayList();
         list1.add("One");
         list1.add("Second");
         list1.add("Three");
@@ -283,14 +374,14 @@ public class LinkedListTest {
         actual.addAll(1,list1);
         expected.addAll(1,list1);
         assertArrayEquals(expected.toArray(), actual.toArray());
-    }    
+    }
     /*
     addAll(int index, Collection<? extends E> c) index in middle
     */
     @Test
-    public void fifteen()
+    public void addAllMiddle()
     {
-        List <String> list1 = new ArrayList();  
+        List <String> list1 = new ArrayList();
         list1.add("One");
         list1.add("Second");
         list1.add("Three");
@@ -312,9 +403,9 @@ public class LinkedListTest {
     addAll(int index, Collection<? extends E> c) index in last
     */
     @Test
-    public void sixteen()
+    public void addAllLast()
     {
-        List <String> list1 = new ArrayList();  
+        List <String> list1 = new ArrayList();
         list1.add("One");
         list1.add("Second");
         list1.add("Three");
@@ -336,9 +427,9 @@ public class LinkedListTest {
     removeAll(Collection<?> c)
     */
     @Test
-    public void seventeen()
+    public void removeAll()
     {
-        List <String> list1 = new ArrayList();  
+        List <String> list1 = new ArrayList();
         list1.add("One");
         list1.add("Second");
         list1.add("Three");
@@ -362,9 +453,9 @@ public class LinkedListTest {
     retainAll(Collection<?> c)
     */
     @Test
-    public void eighteen()
+    public void retainAll()
     {
-        List <String> list1 = new ArrayList();  
+        List <String> list1 = new ArrayList();
         list1.add("One");
         list1.add("Second");
         list1.add("Three");
@@ -385,9 +476,9 @@ public class LinkedListTest {
     retainAll(Collection<?> c)
     */
     @Test
-    public void nineteen()
+    public void retainAllSecond()
     {
-        List <String> list1 = new ArrayList();  
+        List <String> list1 = new ArrayList();
         list1.add("Three");
         //My implement
         MyLinkedList<String> actual = new MyLinkedList<>();
@@ -403,28 +494,10 @@ public class LinkedListTest {
         assertArrayEquals(expected.toArray(), actual.toArray());
     }
     /*
-    clear
-    */
-    @Test
-    public void twenty()
-    {
-        MyLinkedList<String> actual = new MyLinkedList<>();
-        LinkedList<String> expected = new LinkedList<>();
-        String one = "One";
-        String second = "Second";
-        actual.add(one);
-        actual.add(second);
-        expected.add(one);
-        expected.add(second);
-        actual.clear();
-        expected.clear();
-        assertArrayEquals(expected.toArray(), actual.toArray());
-    }
-    /*
     public E set(int index, E element) 
     */
     @Test
-    public void twentyOne()
+    public void setTest()
     {
         MyLinkedList<String> actual = new MyLinkedList<>();
         LinkedList<String> expected = new LinkedList<>();
@@ -442,7 +515,7 @@ public class LinkedListTest {
     public E set(int index, E element) 
     */
     @Test
-    public void twentyTwo()
+    public void setInMiddle()
     {
         MyLinkedList<String> actual = new MyLinkedList<>();
         LinkedList<String> expected = new LinkedList<>();
@@ -460,7 +533,7 @@ public class LinkedListTest {
     public E set(int index, E element) 
     */
     @Test
-    public void twentyThree()
+    public void setTests()
     {
         MyLinkedList<String> actual = new MyLinkedList<>();
         LinkedList<String> expected = new LinkedList<>();
@@ -478,7 +551,7 @@ public class LinkedListTest {
     public E set(int index, E element) 
     */
     @Test
-    public void twentyFour()
+    public void setChecker()
     {
         MyLinkedList<String> actual = new MyLinkedList<>();
         LinkedList<String> expected = new LinkedList<>();

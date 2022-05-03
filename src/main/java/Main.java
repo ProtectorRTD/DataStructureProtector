@@ -1,30 +1,23 @@
 import linked_list.MyLinkedList;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Main
 {
     public static void main(String[] args) throws Exception {
-        String word_v1 = "Zero";
-        String word_v2 = "Two";
-        String word_v3 = "Three";
-        String word_finall = "Four";
-        //Java classic Linked List
-        LinkedList<String> linkedList = new LinkedList<>();
-        linkedList.add(word_v1);
-        linkedList.add(word_v2);
-        linkedList.add(word_v3);
-
-        //My implement
-        MyLinkedList<String> mylist = new MyLinkedList<>();
-        mylist.add(word_v1);
-        mylist.add(word_v2);
-        mylist.add(word_v3);
-
-        mylist.set(2, "Bda bda");
-        for(int i = 0; i < mylist.size(); i++){
-            System.out.println("Data - "+ mylist.get(i));
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        Collection<String> collection = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            actual.add(Integer.toString(i));
+            expected.add(Integer.toString(i));
+            collection.add(Integer.toString(i));
         }
+        actual.addAll(0, collection);
+        expected.addAll(0, collection);
         System.out.println("");
     }
 }
