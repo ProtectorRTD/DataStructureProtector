@@ -2,6 +2,7 @@ import linked_list.MyLinkedList;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -15,6 +16,11 @@ public class LinkedListTest {
     Check void add(int index, Object o)
     Insert in middle of linked list
     */
+
+    private MyLinkedList<String> myLinkedList;
+    private LinkedList<String> linkedList;
+
+
     @Test
     public void first() {
         String word_v1 = "Zero";
@@ -564,5 +570,188 @@ public class LinkedListTest {
         actual.set(1, one);
         expected.set(1, one);
         assertEquals(expected.set(0, one), actual.set(0, one));
+    }
+
+    @Test
+    public void addFirstTest(){
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        String one = "One";
+        String second = "Second";
+        String blablabla = "Blablabla";
+        actual.add(one);
+        actual.add(second);
+        expected.add(one);
+        expected.add(second);
+        actual.addFirst(blablabla);
+        expected.addFirst(blablabla);
+        assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+
+    @Test
+    public void addFirstSecondTest(){
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        String one = "One";
+        String second = "Second";
+        String blablabla = "Blablabla";
+        actual.add(one);
+        actual.add(second);
+        expected.add(one);
+        expected.add(second);
+        actual.addFirst(blablabla);
+        expected.addFirst(blablabla);
+        Collection<String> collection = new ArrayList<>();
+        for (int i = 0; i < 30000; i++) {
+            actual.add(Integer.toString(i));
+            expected.add(Integer.toString(i));
+            collection.add(Integer.toString(i));
+        }
+        actual.addAll(collection);
+        expected.addAll(collection);
+        assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+
+    @Test
+    public void addLastTest(){
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        String one = "One";
+        String second = "Second";
+        String blablabla = "Blablabla";
+        actual.add(one);
+        actual.add(second);
+        expected.add(one);
+        expected.add(second);
+        actual.addLast(blablabla);
+        expected.addLast(blablabla);
+        Collection<String> collection = new ArrayList<>();
+        for (int i = 0; i < 30000; i++) {
+            actual.add(Integer.toString(i));
+            expected.add(Integer.toString(i));
+            collection.add(Integer.toString(i));
+        }
+        actual.addAll(collection);
+        expected.addAll(collection);
+        assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+
+    @Test
+    public void pollLastTest(){
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        String one = "One";
+        String second = "Second";
+        String blablabla = "Blablabla";
+        actual.add(one);
+        actual.add(second);
+        expected.add(one);
+        expected.add(second);
+        actual.addLast(blablabla);
+        expected.addLast(blablabla);
+        actual.pollLast();
+        expected.pollLast();
+        assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+
+    @Test
+    public void removeLastOccurrence(){
+        MyLinkedList<String> actual = new MyLinkedList<>();
+        LinkedList<String> expected = new LinkedList<>();
+        String one = "One";
+        String second = "Second";
+        String blablabla = "Blablabla";
+        actual.add(one);
+        actual.add(second);
+        expected.add(one);
+        expected.add(second);
+        actual.addLast(blablabla);
+        expected.addLast(blablabla);
+        actual.addLast(blablabla);
+        expected.addLast(blablabla);
+        actual.addLast(blablabla);
+        expected.addLast(blablabla);
+        actual.removeLastOccurrence(blablabla);
+        expected.removeLastOccurrence(blablabla);
+        assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+
+    private void fillList1(){
+        myLinkedList = new MyLinkedList<>();
+        linkedList = new LinkedList<>();
+
+        myLinkedList.add("Hello");
+        linkedList.add("Hello");
+    }
+
+    private void fillList2(){
+        myLinkedList = new MyLinkedList<>();
+        linkedList = new LinkedList<>();
+
+        myLinkedList.add("Hello1");
+        myLinkedList.add("Hello2");
+        myLinkedList.add(1, "Hello3");
+        myLinkedList.add(3, "Hello4");
+
+        linkedList.add("Hello1");
+        linkedList.add("Hello2");
+        linkedList.add(1, "Hello3");
+        linkedList.add(3, "Hello4");
+    }
+
+    @Test
+    public void remove_1(){
+        fillList1();
+        myLinkedList.remove("Hello");
+        linkedList.remove("Hello");
+
+        assertArrayEquals(linkedList.toArray(), myLinkedList.toArray());
+    }
+
+    @Test
+    public void remove_2(){
+        fillList2();
+        myLinkedList.remove("Hello1");
+        linkedList.remove("Hello1");
+
+        assertArrayEquals(linkedList.toArray(), myLinkedList.toArray());
+    }
+
+    @Test
+    public void remove_3(){
+        fillList2();
+        myLinkedList.remove("Hello4");
+        linkedList.remove("Hello4");
+
+        assertArrayEquals(linkedList.toArray(), myLinkedList.toArray());
+    }
+
+    @Test
+    public void remove_4(){
+        fillList2();
+        myLinkedList.remove("Hello1");
+        linkedList.remove("Hello1");
+        myLinkedList.remove("Hello3");
+        linkedList.remove("Hello3");
+
+        assertArrayEquals(linkedList.toArray(), myLinkedList.toArray());
+    }
+
+    @Test
+    public void remove_5(){
+        fillList1();
+        myLinkedList.remove("Hello5");
+        linkedList.remove("Hello5");
+
+        assertArrayEquals(linkedList.toArray(), myLinkedList.toArray());
+    }
+
+    @Test
+    public void remove_6(){
+        linkedList = new LinkedList<>();
+        myLinkedList = new MyLinkedList<>();
+
+        linkedList.remove("Hello1");
+        myLinkedList.remove("Hello1");
     }
 }

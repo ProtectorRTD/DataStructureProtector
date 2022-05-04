@@ -1,37 +1,10 @@
 package linked_list;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 
-/*
-Need function
-    addFirst(E e)
-    addLast(E e)
-    clone()
-    descendingIterator()
-    element()
-    offer(E e)
-    offerFirst(E e)
-    offerLast(E e)
-    peek()
-    peekFirst
-    peekLast
-    poll()
-    pollFirst()
-    pollLast()
-    pop()
-    push
-    remove()
-    remove(int index)
- 	removeFirst()
-    removeFirstOccurrence(Object o)
-    removeLast()
- 	removeLastOccurrence(Object o)
- */
-public class MyLinkedList<E> implements List<E> {
+
+public class MyLinkedList<E> implements List<E>, Deque<E> {
     private Node<E> root;
     private Node<E> last;
     private int size = 0;
@@ -43,6 +16,7 @@ public class MyLinkedList<E> implements List<E> {
     public MyLinkedList(){
 
     }
+
     @Override
     public boolean add(E e) {
         if (root == null) {
@@ -122,6 +96,21 @@ public class MyLinkedList<E> implements List<E> {
         }
         return true;
     }
+    @Override
+    public void addFirst(E e) {
+        Node<E> object = new Node<>(e);
+        object.setNextNode(root);
+        root = object;
+        size++;
+    }
+
+    @Override
+    public void addLast(E e) {
+        Node<E> object = new Node<>(e);
+        last.setNextNode(object);
+        last = last.getNextNode();
+        size++;
+    }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
@@ -132,7 +121,7 @@ public class MyLinkedList<E> implements List<E> {
         for (E e : c) {
             linkedList.add(e);
         }
-        add(index, linkedList.getRoot(), linkedList.getLast());
+        add(index, linkedList.getRoot(), linkedList.getLastNode());
         size += c.size();
         return true;
     }
@@ -146,6 +135,11 @@ public class MyLinkedList<E> implements List<E> {
     @Override
     public boolean contains(Object o) {
         return indexOf(o) != -1;
+    }
+
+    @Override
+    public E element() {
+        return root.getData();
     }
 
     @Override
@@ -168,8 +162,19 @@ public class MyLinkedList<E> implements List<E> {
     {
         return  root;
     }
-    private Node<E> getLast(){
+
+    public Node<E> getLastNode(){
         return last;
+    }
+
+    @Override
+    public E getFirst() {
+        return root.getData();
+    }
+
+    @Override
+    public E getLast() {
+        return last.getData();
     }
 
     @Override
@@ -207,24 +212,116 @@ public class MyLinkedList<E> implements List<E> {
     }
 
     @Override
+    public boolean offer(E e) {
+        addLast(e);
+        return true;
+    }
+
+    @Override
+    public boolean offerFirst(E e) {
+        addFirst(e);
+        return true;
+    }
+
+    @Override
+    public boolean offerLast(E e) {
+        addLast(e);
+        return true;
+    }
+
+    @Override
+    public E peek() {
+        return root.getData();
+    }
+    @Override
+    public E peekFirst() {
+        return peek();
+    }
+
+    @Override
+    public E peekLast() {
+        return last.getData();
+    }
+
+    @Override
+    public E poll() {
+        return remove(0);
+    }
+    @Override
+    public E pollFirst() {
+        if(isEmpty()) return null;
+        return poll();
+    }
+
+    @Override
+    public void push(E e) {
+        add(0,e);
+    }
+
+    @Override
+    public E pop() {
+        return remove(0);
+    }
+    @Override
+    public E remove() {
+        return remove(0);
+    }
+
+    @Override
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    @Override
+    public E removeLast() {
+        return remove(size-1);
+    }
+
+    @Override
+    public E pollLast() {
+        return remove(size-1);
+    }
+
+
+    @Override
+    public boolean removeFirstOccurrence(Object o) {
+        return remove(o);
+    }
+
+    @Override
+    public boolean removeLastOccurrence(Object o) {
+       int lastPosition = 0;
+       Node<E> current = root;
+       for (int i = 0; i < size; i++){
+           if(current.getData().equals(o)){
+               lastPosition = i;
+           }
+       }
+       remove(lastPosition);
+       return true;
+
+    }
+
+    @Override
     public boolean remove(Object o) {
-        if (o == null)
+        if (o == null || isEmpty())
             return false;
         if (root.getData().equals(o)) {
             root = root.getNextNode();
+            size--;
         } else {
             Node<E> prev = root;
             Node<E> current = root.getNextNode();
             while (current != null) {
                 if (o.equals(current.getData())) {
                     prev.setNextNode(current.getNextNode());
+                    size--;
                     break;
                 }
                 prev = current;
                 current = current.getNextNode();
             }
         }
-        size--;
         return true;
     }
 
@@ -386,7 +483,10 @@ public class MyLinkedList<E> implements List<E> {
     public Iterator<E> iterator() {
         return null;
     }
-    public boolean equals(Object o){
-        return true;
+
+    @Override
+    public Iterator<E> descendingIterator() {
+        return null;
     }
+
 }
