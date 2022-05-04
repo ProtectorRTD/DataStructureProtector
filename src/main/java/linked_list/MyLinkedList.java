@@ -3,17 +3,17 @@ package linked_list;
 import java.util.*;
 
 
-
 public class MyLinkedList<E> implements List<E>, Deque<E> {
     private Node<E> root;
     private Node<E> last;
     private int size = 0;
 
-    public MyLinkedList(Node<E> root, Node <E>last){
+    public MyLinkedList(Node<E> root, Node<E> last) {
         this.root = root;
         this.last = last;
     }
-    public MyLinkedList(){
+
+    public MyLinkedList() {
 
     }
 
@@ -66,7 +66,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
         if (index > size) {
             throw new IndexOutOfBoundsException();
         }
-        if(index == 0){
+        if (index == 0) {
             lastList.setNextNode(root);
             root = rootList;
             return;
@@ -77,7 +77,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
         while (nowPos < index) {
             if (nowPos + 1 == index) {
                 current.setNextNode(rootList);
-                if(next != null){
+                if (next != null) {
                     lastList.setNextNode(next);
                 }
                 break;
@@ -96,6 +96,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
         }
         return true;
     }
+
     @Override
     public void addFirst(E e) {
         Node<E> object = new Node<>(e);
@@ -158,12 +159,11 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
         return tmp.getData();
     }
 
-    private Node<E> getRoot()
-    {
-        return  root;
+    private Node<E> getRoot() {
+        return root;
     }
 
-    public Node<E> getLastNode(){
+    public Node<E> getLastNode() {
         return last;
     }
 
@@ -233,6 +233,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
     public E peek() {
         return root.getData();
     }
+
     @Override
     public E peekFirst() {
         return peek();
@@ -247,21 +248,23 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
     public E poll() {
         return remove(0);
     }
+
     @Override
     public E pollFirst() {
-        if(isEmpty()) return null;
+        if (isEmpty()) return null;
         return poll();
     }
 
     @Override
     public void push(E e) {
-        add(0,e);
+        add(0, e);
     }
 
     @Override
     public E pop() {
         return remove(0);
     }
+
     @Override
     public E remove() {
         return remove(0);
@@ -274,12 +277,12 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
 
     @Override
     public E removeLast() {
-        return remove(size-1);
+        return remove(size - 1);
     }
 
     @Override
     public E pollLast() {
-        return remove(size-1);
+        return remove(size - 1);
     }
 
 
@@ -290,15 +293,17 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
 
     @Override
     public boolean removeLastOccurrence(Object o) {
-       int lastPosition = 0;
-       Node<E> current = root;
-       for (int i = 0; i < size; i++){
-           if(current.getData().equals(o)){
-               lastPosition = i;
-           }
-       }
-       remove(lastPosition);
-       return true;
+        int lastPosition = -1;
+        Node<E> current = root;
+        for (int i = 0; i < size; i++) {
+            if (current.getData().equals(o)) {
+                lastPosition = i;
+            }
+            current = current.getNextNode();
+        }
+        if (lastPosition != -1)
+            remove(lastPosition);
+        return true;
 
     }
 
@@ -306,22 +311,25 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
     public boolean remove(Object o) {
         if (o == null || isEmpty())
             return false;
+        Node<E> prev = root;
+        Node<E> current = root.getNextNode();
+        boolean checker = false;
         if (root.getData().equals(o)) {
             root = root.getNextNode();
-            size--;
-        } else {
-            Node<E> prev = root;
-            Node<E> current = root.getNextNode();
-            while (current != null) {
-                if (o.equals(current.getData())) {
-                    prev.setNextNode(current.getNextNode());
-                    size--;
-                    break;
-                }
-                prev = current;
-                current = current.getNextNode();
-            }
+            checker = true;
         }
+        while (current != null && !checker) {
+            if (o.equals(current.getData())) {
+                prev.setNextNode(current.getNextNode());
+                checker = true;
+                break;
+            }
+            prev = current;
+            current = current.getNextNode();
+        }
+        if (checker)
+            size--;
+
         return true;
     }
 
@@ -443,7 +451,8 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
         }
         return true;
     }
-    public String toString(){
+
+    public String toString() {
         return "";
     }
 
