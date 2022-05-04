@@ -115,7 +115,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        if (index > size) {
+        if (index > size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
         MyLinkedList<E> linkedList = new MyLinkedList<>();
