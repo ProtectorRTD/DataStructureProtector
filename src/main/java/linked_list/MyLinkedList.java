@@ -38,7 +38,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
 
     @Override
     public void add(int index, E element) {
-        if (index > size) {
+        if (index > size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
         if (size == 0) {
@@ -63,7 +63,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
     }
 
     public void add(int index, Node<E> rootList, Node<E> lastList) {
-        if (index > size) {
+        if (index > size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
         if (index == 0) {
@@ -335,7 +335,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
 
     @Override
     public E remove(int index) {
-        if (index > this.size()) {
+        if (index > this.size() || index < 0) {
             throw new IndexOutOfBoundsException();
         }
         Node<E> object = new Node<>(get(index));
@@ -345,7 +345,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E> {
 
     @Override
     public E set(int index, E element) {
-        if (index > size) {
+        if (index > size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
         Node<E> object = new Node<>(element);
