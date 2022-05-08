@@ -1,15 +1,15 @@
-import linked_list.MyLinkedList;
+import binary_tree.BinaryTree;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Main
 {
-    public static void main(String[] args) throws Exception {
-
-
+    public static void main(String[] args) {
+        BinaryTree binaryTree = new BinaryTree(4);
+        binaryTree.addNode(6);
+        binaryTree.addNode(3);
+        binaryTree.addNode(7);
+        binaryTree.addNode(2);
+        System.out.println(binaryTree.contains(3));
         System.out.println("");
     }
 }
