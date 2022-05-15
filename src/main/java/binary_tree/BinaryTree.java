@@ -1,6 +1,5 @@
 package binary_tree;
 
-//Заметки
 //нахождение элемента в дереве +
 //сравнение деревьев одинаковые или нет
 //удаление элемента
@@ -46,5 +45,22 @@ public class BinaryTree {
             }
         }
         return false;
+    }
+    /*
+        Compares the current tree(by structure, not value) and
+        the tree passed in the arguments
+    */
+    public boolean equalsTree(TreeNode root) {
+        TreeNode current = this.root;
+        TreeNode anotherCurrent = root;
+        boolean checker = true;
+        while (checker) {
+            checker = equalsTreeNode(current, anotherCurrent);
+        }
+        return false;
+    }
+
+    public boolean equalsTreeNode(TreeNode expected, TreeNode actual) {
+        return expected.compareNodes(actual);
     }
 }

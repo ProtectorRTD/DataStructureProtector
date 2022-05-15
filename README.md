@@ -11,6 +11,7 @@ The workspace contains two folders by default, where:
   - `main:` 
     - `java:`
       - `linked_list:` The folder where my Linked List implementation is located. Also in the folder there will be tests that can be viewed and run
+      - `binary_tree:` The folder where my Binary Tree implementation is located. 
   - `test:`
     - `java:` The folder with test
   

@@ -34,4 +34,14 @@ public class TreeNode {
     public void setRight(TreeNode right) {
         this.right = right;
     }
+
+    /*
+        Compare structure Node
+    */
+    public boolean compareNodes(TreeNode comparing) {
+        if ((this.left == null && comparing.left == null) || (this.left != null && comparing.left != null)) {
+            return (this.right == null && comparing.right == null) || (comparing.right != null && this.right != null);
+        }
+        return false;
+    }
 }
